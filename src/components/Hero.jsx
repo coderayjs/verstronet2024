@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline' // Add missing imports
+import verstronet from '../assets/verstronet.png'
 
 
 const navigation = [
@@ -19,11 +20,11 @@ export default function Hero() {
             <header className="absolute inset-x-0 top-0 z-50">
                 <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
                     <div className="flex lg:flex-1">
-                        <a href="#" className="-m-1.5 p-1.5">
-                            <span className="sr-only">Your Company</span>
+                        <a href="#" className="-m-1.5 p-2.5">
+                            <span className="sr-only">Verstronet</span>
                             <img
                                 alt=""
-                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                src={verstronet}
                                 className="h-8 w-auto"
                             />
                         </a>
@@ -56,7 +57,7 @@ export default function Hero() {
                     <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                         <div className="flex items-center justify-between">
                             <a href="#" className="-m-1.5 p-1.5">
-                                <span className="sr-only">Your Company</span>
+                                <span className="sr-only">Verstronet</span>
                                 <img
                                     alt=""
                                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -124,11 +125,10 @@ export default function Hero() {
                     </div>
                     <div className="text-center">
                         <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                            Data to enrich your online business
+                            Upgrade your IT skills with <span className="text-indigo-600">Verstronet</span>
                         </h1>
                         <p className="mt-6 text-lg leading-8 text-gray-600">
-                            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-                            fugiat veniam occaecat fugiat aliqua.
+                            Get access to the best instructors in the world. Learn from the best and stay ahead of the curve. We have created a platform that makes learning easier than 
                         </p>
                         <div className="mt-10 flex items-center justify-center gap-x-6">
                             <a
