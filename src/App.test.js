@@ -9,6 +9,6 @@ test("renders home hero", () => {
     </BrowserRouter>
   );
   expect(
-    screen.getByText(/Internet-grade training/i)
+    screen.getByText(/Industrial hardware/i)
   ).toBeInTheDocument();
 });

@@ -23,25 +23,33 @@ const SectionShell = ({
 }) => (
   <section
     id={id}
-    className={`relative scroll-mt-24 border-t border-white/10 overflow-hidden ${className}`}>
+    className={`relative scroll-mt-24 overflow-hidden border-t ${
+      bgImage
+        ? "border-white/10"
+        : "border-zinc-200/80 dark:border-white/10"
+    } ${className}`}>
     {bgImage ? (
       <>
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
+          className="absolute inset-0 scale-105 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${sectionBgUrl(bgImage)})` }}
           aria-hidden
         />
-        <div
-          className="absolute inset-0 bg-[#060606]/82"
-          aria-hidden
-        />
+        {/* Dark scrim in both site themes so copy stays white-on-photo */}
+        <div className="absolute inset-0 bg-[#060606]/82" aria-hidden />
       </>
     ) : null}
     <div className="relative z-10 container mx-auto px-6 py-20 md:py-28">
-      <p className="text-[11px] tracking-[0.28em] uppercase text-zinc-500 mb-4">
+      <p
+        className={`mb-4 text-[11px] uppercase tracking-[0.28em] ${
+          bgImage ? "text-zinc-400" : "text-zinc-500"
+        }`}>
         {eyebrow}
       </p>
-      <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-white max-w-3xl mb-12">
+      <h2
+        className={`mb-12 max-w-3xl text-3xl font-semibold tracking-tight md:text-4xl ${
+          bgImage ? "text-white" : "text-zinc-900 dark:text-white"
+        }`}>
         {title}
       </h2>
       {children}
@@ -49,15 +57,16 @@ const SectionShell = ({
   </section>
 );
 
+/** Cards on photo sections: always light text on glass (not tied to site light/dark theme). */
 const FeatureCard = ({ icon: Icon, title, body }) => (
-  <div className="group border border-white/10 bg-black/35 backdrop-blur-sm p-6 md:p-8 rounded-sm hover:border-white/25 hover:bg-black/45 transition-colors">
+  <div className="group rounded-sm border border-white/10 bg-black/35 p-6 backdrop-blur-sm transition-colors hover:border-white/25 hover:bg-black/45 md:p-8">
     <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-sm border border-white/15 bg-black/40 text-zinc-200">
       <Icon className="h-5 w-5" strokeWidth={1.5} />
     </div>
-    <h3 className="text-sm font-semibold tracking-wide uppercase text-zinc-100 mb-2">
+    <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-zinc-100">
       {title}
     </h3>
-    <p className="text-sm text-zinc-400 leading-relaxed">{body}</p>
+    <p className="text-sm leading-relaxed text-zinc-400">{body}</p>
   </div>
 );
 
@@ -71,7 +80,7 @@ const HomeSections = () => {
         eyebrow="Innovations"
         title="Research-driven products that push what’s possible in the field."
         bgImage="art002e009279~large.jpg">
-        <p className="text-zinc-400 max-w-2xl mb-12 leading-relaxed">
+        <p className="mb-12 max-w-2xl leading-relaxed text-zinc-300">
           We prototype fast, validate with operators, and harden what works.
           From edge AI to resilient networks, innovation stays tied to deployable
           outcomes—not slide decks.
@@ -100,7 +109,7 @@ const HomeSections = () => {
         eyebrow="Military & intelligence"
         title="Mission-ready system design for defense and intelligence contexts."
         bgImage="art002e009301~large.jpg">
-        <p className="text-zinc-400 max-w-2xl mb-12 leading-relaxed">
+        <p className="mb-12 max-w-2xl leading-relaxed text-zinc-300">
           Experience with environments that demand strict assurance, interoperability,
           and discretion. We align engineering choices to classification,
           accreditation, and coalition interoperability where applicable.
@@ -126,15 +135,15 @@ const HomeSections = () => {
 
       <section
         id="team"
-        className="scroll-mt-24 border-t border-white/10 py-16 md:py-20">
+        className="scroll-mt-24 border-t border-zinc-200/80 py-16 dark:border-white/10 md:py-20">
         <div className="container mx-auto px-6">
-          <p className="text-[11px] tracking-[0.28em] uppercase text-zinc-500 mb-3">
+          <p className="mb-3 text-[11px] uppercase tracking-[0.28em] text-zinc-500">
             Team
           </p>
-          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 tracking-tight">
+          <h2 className="mb-4 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white md:text-3xl">
             People behind Verstronet
           </h2>
-          <p className="text-sm text-zinc-400 max-w-xl leading-relaxed">
+          <p className="max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             Leadership, engineering, and operations—bios and roles will appear
             here.
           </p>

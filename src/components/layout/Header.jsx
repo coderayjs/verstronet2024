@@ -9,26 +9,29 @@ import {
 } from "@headlessui/react";
 import { ChevronDown } from "lucide-react";
 import CustomButton from "./CustomButton";
+import ThemeToggle from "./ThemeToggle";
 
 const navLink =
-  "text-xs tracking-[0.14em] uppercase text-zinc-300 hover:text-white transition duration-300";
+  "text-xs tracking-[0.14em] uppercase text-zinc-600 hover:text-zinc-900 transition duration-300 dark:text-zinc-300 dark:hover:text-white";
 
 const menuItem = (focus) =>
   `block w-full px-4 py-2.5 text-left text-xs tracking-[0.12em] uppercase ${
-    focus ? "bg-white/10 text-white" : "text-zinc-300"
+    focus
+      ? "bg-zinc-100 text-zinc-900 dark:bg-white/10 dark:text-white"
+      : "text-zinc-700 dark:text-zinc-300"
   }`;
 
 const ProductsMenu = () => (
   <Menu as="div" className="relative inline-block text-left">
     <MenuButton
-      className={`${navLink} inline-flex items-center gap-1 rounded-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-white/40`}>
+      className={`${navLink} inline-flex items-center gap-1 rounded-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-zinc-400 dark:focus-visible:ring-white/40`}>
       Products
       <ChevronDown className="h-3.5 w-3.5 opacity-70" aria-hidden />
     </MenuButton>
     <MenuItems
       transition
       anchor="bottom start"
-      className="z-[100] mt-2 w-56 origin-top-left rounded-sm border border-white/15 bg-zinc-950/95 py-1 shadow-2xl backdrop-blur-md outline-none [--anchor-gap:8px] data-[closed]:opacity-0 data-[closed]:scale-95 data-[closed]:transition data-[closed]:duration-100 data-[closed]:ease-out">
+      className="z-[100] mt-2 w-56 origin-top-left rounded-sm border border-zinc-200 bg-white/95 py-1 shadow-2xl backdrop-blur-md outline-none [--anchor-gap:8px] data-[closed]:opacity-0 data-[closed]:scale-95 data-[closed]:transition data-[closed]:duration-100 data-[closed]:ease-out dark:border-white/15 dark:bg-zinc-950/95">
       <MenuItem>
         {({ focus }) => (
           <Link to="/#products" className={menuItem(focus)}>
@@ -36,18 +39,18 @@ const ProductsMenu = () => (
           </Link>
         )}
       </MenuItem>
-      <MenuSeparator className="my-1 h-px bg-white/10" />
+      <MenuItem>
+        {({ focus }) => (
+          <Link to="/sale" className={menuItem(focus)}>
+            Shop
+          </Link>
+        )}
+      </MenuItem>
+      <MenuSeparator className="my-1 h-px bg-zinc-200 dark:bg-white/10" />
       <MenuItem>
         {({ focus }) => (
           <Link to="/#flicknet" className={menuItem(focus)}>
             Flicknet
-          </Link>
-        )}
-      </MenuItem>
-      <MenuItem>
-        {({ focus }) => (
-          <Link to="/sale" className={menuItem(focus)}>
-            Flicknet presale
           </Link>
         )}
       </MenuItem>
@@ -64,34 +67,40 @@ const ProductsMenu = () => (
 
 const Header = ({ onLoginClick }) => {
   return (
-    <header className="container mx-auto px-6 py-6 flex flex-wrap items-center justify-between gap-4">
-      <Link to="/" className="flex items-center gap-3 shrink-0">
+    <header className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-6 py-6">
+      <Link to="/" className="flex shrink-0 items-center gap-3">
         <img
           src="/images/logo.png"
           alt=""
-          className="h-9 w-auto object-contain brightness-0 invert"
+          className="h-9 w-auto object-contain dark:brightness-0 dark:invert"
         />
-        <span className="text-sm font-semibold tracking-[0.28em] uppercase text-white">
+        <span className="text-sm font-semibold uppercase tracking-[0.28em] text-zinc-900 dark:text-white">
           Verstronet
         </span>
       </Link>
 
-      <div className="flex flex-1 items-center justify-end gap-4 min-w-0">
-        <div className="flex md:hidden items-center gap-4 flex-wrap">
+      <div className="flex min-w-0 flex-1 items-center justify-end gap-3 md:gap-4">
+        <div className="flex flex-wrap items-center gap-4 md:hidden">
           <Link to="/" className={navLink}>
             Home
           </Link>
           <ProductsMenu />
+          <Link to="/sale" className={navLink}>
+            Shop
+          </Link>
           <Link to="/#team" className={navLink}>
             Team
           </Link>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8 flex-wrap justify-end">
+        <nav className="hidden flex-wrap items-center justify-end gap-8 md:flex">
           <Link to="/" className={navLink}>
             Home
           </Link>
           <ProductsMenu />
+          <Link to="/sale" className={navLink}>
+            Shop
+          </Link>
           <Link to="/#innovations" className={navLink}>
             Innovations
           </Link>
@@ -106,6 +115,7 @@ const Header = ({ onLoginClick }) => {
           </Link>
         </nav>
 
+        <ThemeToggle />
         <CustomButton onClick={onLoginClick} variant="secondary">
           Log in
         </CustomButton>

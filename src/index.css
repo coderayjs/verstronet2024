@@ -10,7 +10,6 @@ body,
 
 body {
   margin: 0;
-  background: #060606;
-  color: #f4f4f5;
   font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  @apply bg-zinc-50 text-zinc-900 antialiased transition-colors duration-200 dark:bg-[#060606] dark:text-zinc-100;
 }

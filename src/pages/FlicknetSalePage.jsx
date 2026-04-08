@@ -1,183 +1,146 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import CustomButton from "../components/layout/CustomButton";
+import FlicknetProductCard from "../components/shop/FlicknetProductCard";
 import {
   FLICKNET_VIDEO_POSTER,
   FLICKNET_VIDEO_SRC,
 } from "../constants/flicknetMedia";
+import { SHOP_CATEGORIES } from "../constants/shopCategories";
+import {
+  FLICKNET_VARIANTS,
+  flicknetFinishSlug,
+  flicknetImg,
+} from "../constants/flicknetVariants";
 
-const FLICKNET_VARIANTS = [
-  {
-    file: "DESIGN 1B.png",
-    title: "Graphite",
-    spec: "Matte black shell, low-reflectance finish for rack and field use.",
-  },
-  {
-    file: "DESIGN 188U.png",
-    title: "Steel",
-    spec: "Brushed metal accent with vent-forward thermal layout.",
-  },
-  {
-    file: "FLICKNET1aas.png",
-    title: "Amber",
-    spec: "Warm accent trim for high-visibility operator cues.",
-  },
-  {
-    file: "FLICKNET1qq.png",
-    title: "Ocean",
-    spec: "Cool blue-gray tone, neutral in mixed lighting.",
-  },
-  {
-    file: "FLICKNET1ww.png",
-    title: "Snow",
-    spec: "Light chassis for contrast against dark consoles.",
-  },
-  {
-    file: "aaaaaxa.png",
-    title: "Carbon",
-    spec: "Compact footprint, carbon-texture grip surfaces.",
-  },
-  {
-    file: "qqqa.png",
-    title: "Signal",
-    spec: "Safety-forward highlights for lab and staging builds.",
-  },
-  {
-    file: "wwwwa.png",
-    title: "Slate",
-    spec: "Mid-gray baseline, blends with standard rack gear.",
-  },
-  {
-    file: "wwwwsds.png",
-    title: "Sand",
-    spec: "Desert-tan option for outdoor and mobile kits.",
-  },
-  {
-    file: "wwwww.png",
-    title: "Obsidian",
-    spec: "Deep gloss trim—flagship presentation variant.",
-  },
-  {
-    file: "wwwwwss.png",
-    title: "Silver",
-    spec: "Silver alloy accents, lab-grade optics compatibility.",
-  },
-];
-
-const imageSrc = (filename) =>
-  `/images/products/flicknet/${encodeURIComponent(filename)}`;
+const flicknetShopItems =
+  SHOP_CATEGORIES.find((c) => c.id === "flicknet")?.items ?? [];
 
 const FlicknetSalePage = () => {
+  const location = useLocation();
   const [activeIndex, setActiveIndex] = useState(0);
   const active = FLICKNET_VARIANTS[activeIndex];
 
-  return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-6 py-10 md:py-14">
-        <Link
-          to="/"
-          className="inline-block text-[11px] tracking-[0.2em] uppercase text-zinc-500 hover:text-white transition-colors mb-10">
-          ← Back to home
-        </Link>
+  useEffect(() => {
+    const raw = (location.hash || "").replace(/^#/, "");
+    if (!raw.startsWith("finish-")) return;
+    const slug = raw.slice("finish-".length);
+    const idx = FLICKNET_VARIANTS.findIndex(
+      (v) => flicknetFinishSlug(v.title) === slug
+    );
+    if (idx >= 0) setActiveIndex(idx);
+  }, [location.hash]);
 
-        <div className="flex flex-wrap items-center gap-3 mb-6">
-          <span className="text-[11px] tracking-[0.28em] uppercase text-zinc-500">
-            Flicknet
+  const frame =
+    "overflow-hidden rounded-sm border border-zinc-200/90 bg-zinc-100/80 dark:border-white/15 dark:bg-black/40";
+
+  return (
+    <section className="min-h-screen border-t border-zinc-200/80 dark:border-white/10">
+      <div className="container mx-auto max-w-7xl px-6 py-16 md:py-24">
+        <div className="mb-10 flex flex-wrap items-center gap-3 md:mb-12">
+          <Link
+            to="/sale"
+            className="text-[11px] uppercase tracking-[0.2em] text-zinc-500 transition-colors hover:text-zinc-900 dark:hover:text-white">
+            ← Shop
+          </Link>
+          <span className="text-zinc-400 dark:text-zinc-600">·</span>
+          <span className="text-[11px] uppercase tracking-[0.28em] text-zinc-500">
+            Products
           </span>
-          <span className="text-zinc-600">·</span>
-          <span className="inline-flex items-center rounded-sm border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold tracking-[0.2em] uppercase text-amber-200">
+          <span className="text-zinc-400 dark:text-zinc-600">·</span>
+          <span className="inline-flex items-center rounded-sm border border-amber-500/50 bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-900 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
             Presale
           </span>
         </div>
 
-        <h1 className="text-3xl md:text-5xl font-semibold tracking-tight text-white mb-4">
-          Flicknet presale
-        </h1>
-        <p className="text-lg text-zinc-300 mb-8 max-w-2xl leading-relaxed">
-          Pick a colorway to see the large preview and specs. Early access list
-          opens soon.
-        </p>
-
-        <div className="mb-12 overflow-hidden rounded-sm border border-white/15 bg-black">
-          <video
-            className="w-full h-auto max-h-[min(480px,65vh)] object-contain mx-auto block"
-            src={FLICKNET_VIDEO_SRC}
-            poster={FLICKNET_VIDEO_POSTER}
-            autoPlay
-            muted
-            loop
-            playsInline
-            controls
-          />
-          <p className="border-t border-white/10 px-4 py-3 text-center text-[11px] tracking-[0.18em] uppercase text-zinc-500">
-            Flicknet · product video
-          </p>
-        </div>
-
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-start">
-          <div className="space-y-6 order-2 lg:order-1">
-            <div className="overflow-hidden rounded-sm border border-white/15 bg-black/40">
-              <img
-                src={imageSrc(active.file)}
-                alt={`Flicknet ${active.title}`}
-                className="w-full h-auto object-contain max-h-[min(420px,55vh)] mx-auto"
-              />
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-[11px] tracking-[0.22em] uppercase text-amber-200/90 mb-1">
-                  {active.title}
-                </p>
-                <p className="text-sm text-zinc-400 leading-relaxed">
-                  {active.spec}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-4">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+          <div>
+            <h1 className="mb-4 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-white md:text-5xl">
+              Flicknet
+            </h1>
+            <p className="mb-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-300">
+              Browse every finish. Specs update with your selection—then join the
+              presale list when you’re ready.
+            </p>
+            <p className="mb-6 border-l border-zinc-300 pl-4 text-sm leading-relaxed text-zinc-600 dark:border-white/15 dark:text-zinc-500">
+              <span className="text-zinc-800 dark:text-zinc-400">{active.title}</span>
+              <span className="mt-2 block">{active.spec}</span>
+            </p>
+            <div
+              id="presale"
+              className="mb-10 flex flex-wrap gap-4 scroll-mt-28">
               <CustomButton href="#" variant="primary">
                 Join presale list
               </CustomButton>
-              <CustomButton to="/" variant="secondary">
-                Home
+              <CustomButton to="/#flicknet" variant="secondary">
+                Back to overview
               </CustomButton>
+            </div>
+
+            <p className="mb-3 text-[11px] uppercase tracking-[0.28em] text-zinc-500">
+              Product clip
+            </p>
+            <div id="clip" className={`${frame} scroll-mt-28`}>
+              <video
+                className="h-auto max-h-[200px] w-full object-contain md:max-h-[240px]"
+                src={FLICKNET_VIDEO_SRC}
+                poster={FLICKNET_VIDEO_POSTER}
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls
+              />
             </div>
           </div>
 
-          <div className="order-1 lg:order-2">
-            <p className="text-sm text-zinc-500 mb-4 uppercase tracking-wide">
-              Colorways
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div id="colorways" className="scroll-mt-28 space-y-4">
+            <div className={frame}>
+              <img
+                src={flicknetImg(active.file)}
+                alt={`Flicknet ${active.title}`}
+                className="mx-auto h-auto max-h-[min(420px,55vh)] w-full object-contain"
+              />
+            </div>
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
               {FLICKNET_VARIANTS.map((variant, i) => (
                 <button
                   key={variant.file}
                   type="button"
+                  id={`finish-${flicknetFinishSlug(variant.title)}`}
+                  aria-label={`View ${variant.title}`}
+                  aria-current={i === activeIndex || undefined}
                   onClick={() => setActiveIndex(i)}
-                  className={`text-left rounded-sm border overflow-hidden transition-colors ${
+                  className={`overflow-hidden rounded-sm border bg-zinc-100/90 p-0.5 transition-colors dark:bg-black/30 ${
                     i === activeIndex
-                      ? "border-white ring-1 ring-white/35 bg-white/[0.06]"
-                      : "border-white/10 bg-black/20 hover:border-white/25"
+                      ? "border-zinc-900 ring-1 ring-zinc-900/30 dark:border-white dark:ring-white/40"
+                      : "border-zinc-200 hover:border-zinc-400 dark:border-white/10 dark:hover:border-white/30"
                   }`}>
-                  <div className="aspect-[4/3] max-h-32 sm:max-h-36 overflow-hidden bg-black/50">
-                    <img
-                      src={imageSrc(variant.file)}
-                      alt=""
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="p-3">
-                    <p className="text-[10px] tracking-[0.18em] uppercase text-amber-200/90 mb-1">
-                      {variant.title}
-                    </p>
-                    <p className="text-[11px] text-zinc-500 leading-snug line-clamp-3">
-                      {variant.spec}
-                    </p>
-                  </div>
+                  <img
+                    src={flicknetImg(variant.file)}
+                    alt=""
+                    className="h-14 w-full object-cover object-center"
+                  />
                 </button>
               ))}
             </div>
           </div>
         </div>
+
+        {flicknetShopItems.length > 0 ? (
+          <div className="mt-16 md:mt-24">
+            <p className="mb-6 text-[11px] uppercase tracking-[0.22em] text-zinc-500">
+              Products
+            </p>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+              {flicknetShopItems.map((row) => (
+                <FlicknetProductCard key={row.id} row={row} />
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
-    </div>
+    </section>
   );
 };
 
